@@ -1,0 +1,5 @@
+desenlace,familia,metrica,eventos,n,clinico_sofa,+proxy,delta,IC95,p_unilateral,supera_regla
+mortalidad,ElasticNet,AUROC,69,487,0.773,0.791,0.018,"[-0.006, +0.042]",0.073,True
+mortalidad,RandomForest,AUROC,69,487,0.771,0.785,0.014,"[-0.021, +0.047]",0.197,True
+progresion,ElasticNet,AUPRC,94,1681,0.097,0.102,0.005,"[-0.009, +0.018]",0.266,False
+progresion,RandomForest,AUPRC,94,1681,0.082,0.089,0.007,"[-0.003, +0.021]",0.08,False

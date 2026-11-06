@@ -1,0 +1,17 @@
+# Python 3.12 (Google Colab). NeuroKit2 is pinned because R-peak detection and
+# HRV metrics depend on its version. Pin the remaining packages to the versions
+# of the Colab runtime used for the analysis (run `pip freeze` there).
+neurokit2==0.2.13
+wfdb
+numpy
+pandas
+scipy
+scikit-learn
+xgboost
+statsmodels
+shap
+matplotlib
+seaborn
+tqdm
+google-cloud-bigquery
+db-dtypes   # needed by google-cloud-bigquery to_dataframe()

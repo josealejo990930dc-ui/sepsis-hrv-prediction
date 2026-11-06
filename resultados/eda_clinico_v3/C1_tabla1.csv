@@ -1,0 +1,22 @@
+Variable,Valor
+"Pacientes, n",487
+Ventanas analíticas por paciente,4.0 [2.0–7.0]
+Hora del primer T0 desde el inicio,12.0 [12.0–12.0]
+Edad (años),63.0 [52.0–74.0]
+Sexo masculino,256 (52.6 %)
+Inicio de sepsis: sepsis_previa_al_ingreso,303 (62.2 %)
+Inicio de sepsis: sepsis_durante_estancia,154 (31.6 %)
+Inicio de sepsis: sepsis_primera_hora,30 (6.2 %)
+SOFA en T0 (componentes disponibles),3.0 [2.0–5.0]
+Componentes SOFA medidos,5.0 [4.0–6.0]
+PAM en T0 (mmHg),76.0 [68.0–86.0]
+PAM media 12 h (mmHg),76.7 [69.2–85.2]
+Frecuencia respiratoria (rpm),18.0 [15.0–22.0]
+SpO₂ (%),97.0 [95.0–99.0]
+Lactato medido en las 12 h previas,181 (37.2 %)
+"Último lactato (si se midió, mmol/L)",1.7 [1.1–2.4]
+Vasopresor activo en T0,46 (9.4 %)
+"NED en T0 (si > 0, µg/kg/min)",0.14 [0.06–0.30]
+Sedación en las 12 h previas,209 (42.9 %)
+Opioides en las 12 h previas,217 (44.6 %)
+Mortalidad hospitalaria,69 (14.2 %)

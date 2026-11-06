@@ -1,0 +1,22 @@
+variable,columna,pct_faltante
+Último lactato 12 h (mmol/L),lactate_last_actual12h,69.3
+sofa_resp_t0,sofa_resp_t0,49.3
+sofa_liver_t0,sofa_liver_t0,38.0
+Temperatura (°C),temp_t0,5.2
+sofa_neuro_t0,sofa_neuro_t0,4.9
+PAM en T0 (mmHg),map_t0,4.4
+sofa_cardio_t0,sofa_cardio_t0,4.4
+sofa_coag_t0,sofa_coag_t0,2.5
+sofa_renal_t0,sofa_renal_t0,2.1
+Frecuencia respiratoria (rpm),rr_t0,1.7
+SpO₂ (%),spo2_t0,1.2
+PAM media 12 h (mmHg),mbp_mean_actual12h,1.0
+Edad (años),age,0.0
+NED en T0 (µg/kg/min),ned,0.0
+Sexo masculino,sexo_masculino,0.0
+SOFA en T0 (componentes disponibles),sofa_t0_parcial,0.0
+Opioides (12 h),opioide_bin,0.0
+cumVP (12 h),cumvp,0.0
+VIS en T0,vis,0.0
+Sedación (12 h),sedante_bin,0.0
+Componentes SOFA medidos,n_comp_validos_t0,0.0

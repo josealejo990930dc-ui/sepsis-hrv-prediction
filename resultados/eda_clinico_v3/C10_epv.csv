@@ -1,0 +1,22 @@
+Desenlace,Conjunto,Variables,Eventos (clase minoritaria),Pacientes con evento,EPV
+SOFA respuesta (principal),HRV completa,41,396,238,9.7
+SOFA respuesta (principal),HRV lineal,28,396,238,14.1
+SOFA respuesta (principal),HRV no lineal,12,396,238,33.0
+SOFA respuesta (principal),Clínico basal,12,396,238,33.0
+SOFA respuesta (principal),Clínico basal + SOFA,14,396,238,28.3
+SOFA respuesta (principal),HRV integrada,53,396,238,7.5
+SOFA respuesta (principal),HRV integrada + SOFA,55,396,238,7.2
+Hemodinámico (principal),HRV completa,41,144,77,3.5
+Hemodinámico (principal),HRV lineal,28,144,77,5.1
+Hemodinámico (principal),HRV no lineal,12,144,77,12.0
+Hemodinámico (principal),Clínico basal,12,144,77,12.0
+Hemodinámico (principal),Clínico basal + SOFA,14,144,77,10.3
+Hemodinámico (principal),HRV integrada,53,144,77,2.7
+Hemodinámico (principal),HRV integrada + SOFA,55,144,77,2.6
+SOFA progresión ≥2 (secundario),HRV completa,41,94,77,2.3
+SOFA progresión ≥2 (secundario),HRV lineal,28,94,77,3.4
+SOFA progresión ≥2 (secundario),HRV no lineal,12,94,77,7.8
+SOFA progresión ≥2 (secundario),Clínico basal,12,94,77,7.8
+SOFA progresión ≥2 (secundario),Clínico basal + SOFA,14,94,77,6.7
+SOFA progresión ≥2 (secundario),HRV integrada,53,94,77,1.8
+SOFA progresión ≥2 (secundario),HRV integrada + SOFA,55,94,77,1.7

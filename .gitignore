@@ -218,3 +218,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Project: patient-level data must never be committed (MIMIC-III data use agreement) ---
+ultimate_dataset*.csv
+hrv_completo*.csv
+predicciones_oof.csv
+shap_oof.csv
+df_reporte_final_unificado.csv
+checkpoint_v3.csv
+errores_v3.csv
+reporte_pacientes_v3.txt
+ventanas_candidatas_v3.csv
+RECORDS-waveforms
+.ipynb_checkpoints/

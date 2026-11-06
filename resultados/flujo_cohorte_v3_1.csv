@@ -1,0 +1,12 @@
+paso,ventanas,pacientes,prevalencia_%
+Ventanas candidatas (≥1 ventana de 12h),3100,521,
+Con ≥6h de HRV válida,2555,487,
+  Muerte en horizonte (forzadas),9,9,
+  Alta viva en horizonte (excluidas),188,164,
+Evaluable label_sofa_responder,1681,405,23.6
+Evaluable label_cardio,317,111,45.4
+Evaluable label_sofa_deterioro_2pts,1681,405,5.6
+Evaluable label_sofa_responder_cc,627,148,24.2
+Evaluable label_sofa_responder_nl,734,291,28.6
+Cohorte común (SOFA + cardio),234,93,
+  SOFA evaluable sin medición nueva de laboratorio,953,350,

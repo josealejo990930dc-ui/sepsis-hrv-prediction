@@ -1,0 +1,13 @@
+variable,n,mediana,min,max,asimetria,pct_atipicos_IQR,n_fuera_de_rango
+Edad (años),2555,60.0,20.0,91.4,-0.18,0.0,0
+PAM en T0 (mmHg),2442,77.0,8.0,208.0,0.87,1.8,4
+Frecuencia respiratoria (rpm),2512,19.0,4.0,64.0,0.85,0.8,0
+SpO₂ (%),2524,97.0,76.0,100.0,-1.49,0.9,0
+NED en T0 (µg/kg/min),2555,0.0,0.0,0.82,6.14,10.5,0
+VIS en T0,2555,0.0,0.0,82.06,6.07,10.6,0
+cumVP (12 h),2555,0.0,0.0,8.02,5.49,13.6,0
+PAM media 12 h (mmHg),2529,76.62,44.5,125.5,0.53,1.5,0
+Último lactato 12 h (mmol/L),784,1.6,0.4,12.5,2.51,7.3,0
+SOFA en T0 (componentes disponibles),2555,3.0,0.0,20.0,1.28,2.5,0
+Componentes SOFA medidos,2555,5.0,1.0,6.0,-0.86,0.0,0
+Temperatura (°C),2423,36.94,32.56,40.72,0.21,2.2,0

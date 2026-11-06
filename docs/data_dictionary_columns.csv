@@ -1,0 +1,98 @@
+column,json_group,role,unit,description
+subject_id,id,identifier,,MIMIC-III patient identifier
+icustay_id,id,identifier / CV group,,"MIMIC-III ICU stay identifier; grouping unit for cross-validation and bootstrap (""patient"")"
+hour_index,id,identifier,h,"Hour of the prediction time T0, counted from the start of HRV analysis (12, 18, 24 ... <= 96)"
+t0_prediccion,id,identifier,datetime,Prediction time T0 = inicio_analisis_real + hour_index hours
+n_horas_validas,,inclusion,h,"Valid HRV hours in the observation window [T0-12 h, T0-1 h] (0-12), from the window grid"
+n_horas_hrv_ventana,,QC,h,Same count recomputed by the dataset builder; asserted equal to n_horas_validas
+incl_hrv_4h,filtros,inclusion,0/1,>= 4 valid HRV hours in the window (sensitivity)
+incl_hrv_6h,filtros,inclusion,0/1,">= 6 valid HRV hours in the window (main analysis, fixed a priori)"
+incl_hrv_8h,filtros,inclusion,0/1,>= 8 valid HRV hours in the window (sensitivity)
+eval_comun,filtros,inclusion,0/1,1 if both main labels are evaluable (common-cohort sensitivity analysis)
+age,features_clinicas,predictor,years,Age at ICU admission (>89 years recoded to 91.4 as in MIMIC-III)
+gender,features_clinicas,predictor,M/F,Sex; recoded to sexo_masculino (1 = male) in the modelling pipeline
+map_t0,features_clinicas,predictor,mmHg,Mean arterial pressure at T0 (last value carried forward up to 1 h); < 20 or > 200 set to missing
+rr_t0,features_clinicas,predictor,breaths/min,Respiratory rate at T0 (LOCF up to 6 h)
+spo2_t0,features_clinicas,predictor,%,Peripheral oxygen saturation at T0 (LOCF up to 6 h)
+ned,features_clinicas,predictor,µg/kg/min,Norepinephrine-equivalent dose at T0 = norepinephrine + epinephrine + dopamine/100 (maximum rate of active infusions)
+vis,features_clinicas,predictor,score,Vasoactive-inotropic score at T0 = dopamine + dobutamine + 100 x epinephrine + 100 x norepinephrine
+cumvp,features_clinicas,predictor,µg/kg/min (summed),Cumulative vasopressor exposure = sum of NED over the 12 hourly points T0 ... T0-11 h
+sedante_bin,features_clinicas,predictor,0/1,"Any sedative infusion (propofol, midazolam, lorazepam, dexmedetomidine) overlapping (T0-12 h, T0]"
+opioide_bin,features_clinicas,predictor,0/1,"Any opioid infusion (fentanyl, morphine, hydromorphone) overlapping (T0-12 h, T0]"
+mbp_mean_actual12h,features_pam_lactato_actual,predictor,mmHg,"Mean of MAP measurements in (T0-12 h, T0]; < 20 or > 200 set to missing"
+lactate_last_actual12h,features_pam_lactato_actual,predictor,mmol/L,"Last lactate in (T0-12 h, T0]"
+lactato_medido_12h,features_pam_lactato_actual,predictor,0/1,"1 if at least one lactate was measured in (T0-12 h, T0] (missingness indicator)"
+sofa_t0_parcial,features_sofa,predictor,points,Partial SOFA at T0 = sum of the components available at T0
+n_comp_validos_t0,features_sofa,predictor,count (0-6),Number of SOFA components available at T0
+horas_desde_ultima_hrv,features_hrv,predictor,h,Hours between the last valid HRV hour of the window and T0 (0 = the hour just before T0)
+SDNN_mean,features_hrv; features_hrv_lineal,predictor,ms,"SDNN, time domain (linear set). Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+SDNN_sd,features_hrv; features_hrv_lineal,predictor,ms,"SDNN, time domain (linear set). Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SDNN_last,features_hrv; features_hrv_lineal,predictor,ms,"SDNN, time domain (linear set). Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SDNN_slope,features_hrv; features_hrv_lineal,predictor,ms per hour,"SDNN, time domain (linear set). OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+RMSSD_mean,features_hrv; features_hrv_lineal,predictor,ms,"RMSSD, time domain (linear set). Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+RMSSD_sd,features_hrv; features_hrv_lineal,predictor,ms,"RMSSD, time domain (linear set). Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+RMSSD_last,features_hrv; features_hrv_lineal,predictor,ms,"RMSSD, time domain (linear set). Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+RMSSD_slope,features_hrv; features_hrv_lineal,predictor,ms per hour,"RMSSD, time domain (linear set). OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+LF_mean,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units),"ln LF power, frequency domain (linear set). Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+LF_sd,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units),"ln LF power, frequency domain (linear set). Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+LF_last,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units),"ln LF power, frequency domain (linear set). Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+LF_slope,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units) per hour,"ln LF power, frequency domain (linear set). OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+HF_mean,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units),"ln HF power, frequency domain (linear set). Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+HF_sd,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units),"ln HF power, frequency domain (linear set). Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+HF_last,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units),"ln HF power, frequency domain (linear set). Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+HF_slope,features_hrv; features_hrv_lineal,predictor,ln(NeuroKit2 units) per hour,"ln HF power, frequency domain (linear set). OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+LFHF_mean,features_hrv; features_hrv_lineal,predictor,ln(ratio),"ln LF/HF ratio, frequency domain (linear set). Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+LFHF_sd,features_hrv; features_hrv_lineal,predictor,ln(ratio),"ln LF/HF ratio, frequency domain (linear set). Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+LFHF_last,features_hrv; features_hrv_lineal,predictor,ln(ratio),"ln LF/HF ratio, frequency domain (linear set). Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+LFHF_slope,features_hrv; features_hrv_lineal,predictor,ln(ratio) per hour,"ln LF/HF ratio, frequency domain (linear set). OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+SD1_mean,features_hrv; features_hrv_lineal,predictor,ms,"Poincaré SD1, time domain (linear set; Brennan 2001). Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+SD1_sd,features_hrv; features_hrv_lineal,predictor,ms,"Poincaré SD1, time domain (linear set; Brennan 2001). Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SD1_last,features_hrv; features_hrv_lineal,predictor,ms,"Poincaré SD1, time domain (linear set; Brennan 2001). Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SD1_slope,features_hrv; features_hrv_lineal,predictor,ms per hour,"Poincaré SD1, time domain (linear set; Brennan 2001). OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+SD2_mean,features_hrv; features_hrv_lineal,predictor,ms,"Poincaré SD2, time domain (linear set; Brennan 2001). Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+SD2_sd,features_hrv; features_hrv_lineal,predictor,ms,"Poincaré SD2, time domain (linear set; Brennan 2001). Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SD2_last,features_hrv; features_hrv_lineal,predictor,ms,"Poincaré SD2, time domain (linear set; Brennan 2001). Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SD2_slope,features_hrv; features_hrv_lineal,predictor,ms per hour,"Poincaré SD2, time domain (linear set; Brennan 2001). OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+SampEn_mean,features_hrv; features_hrv_nolineal,predictor,dimensionless,"Sample entropy, non-linear set. Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+SampEn_sd,features_hrv; features_hrv_nolineal,predictor,dimensionless,"Sample entropy, non-linear set. Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SampEn_last,features_hrv; features_hrv_nolineal,predictor,dimensionless,"Sample entropy, non-linear set. Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+SampEn_slope,features_hrv; features_hrv_nolineal,predictor,dimensionless per hour,"Sample entropy, non-linear set. OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+ApEn_mean,features_hrv; features_hrv_nolineal,predictor,dimensionless,"Approximate entropy, non-linear set. Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+ApEn_sd,features_hrv; features_hrv_nolineal,predictor,dimensionless,"Approximate entropy, non-linear set. Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+ApEn_last,features_hrv; features_hrv_nolineal,predictor,dimensionless,"Approximate entropy, non-linear set. Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+ApEn_slope,features_hrv; features_hrv_nolineal,predictor,dimensionless per hour,"Approximate entropy, non-linear set. OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+DFA_a1_mean,features_hrv; features_hrv_nolineal,predictor,dimensionless,"DFA alpha1 (short-term scaling exponent), non-linear set. Mean of the hourly values in the 12-h observation window. Hourly value = median of the valid 5-min epochs of the hour"
+DFA_a1_sd,features_hrv; features_hrv_nolineal,predictor,dimensionless,"DFA alpha1 (short-term scaling exponent), non-linear set. Standard deviation of the hourly values in the window. Hourly value = median of the valid 5-min epochs of the hour"
+DFA_a1_last,features_hrv; features_hrv_nolineal,predictor,dimensionless,"DFA alpha1 (short-term scaling exponent), non-linear set. Last available hourly value in the window. Hourly value = median of the valid 5-min epochs of the hour"
+DFA_a1_slope,features_hrv; features_hrv_nolineal,predictor,dimensionless per hour,"DFA alpha1 (short-term scaling exponent), non-linear set. OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
+label_sofa_responder,labels_principales,label (main),1/0/missing,SOFA improvement: 1 if paired delta SOFA < 0; death in horizon = 0
+label_cardio,labels_principales,label (main),1/0/missing,Haemodynamic stability or recovery: 1 if the MAP criterion AND the lactate criterion are met (see README); death = 0
+label_sofa_deterioro_2pts,labels_secundarios,label (secondary),1/0/missing,SOFA progression: 1 if paired delta SOFA >= 2; death in horizon = 1
+label_sofa_responder_cc,labels_sensibilidad,label (sensitivity),1/0/missing,"SOFA improvement, complete-case SOFA at both times"
+label_sofa_deterioro_2pts_cc,labels_sensibilidad,label (sensitivity),1/0/missing,"SOFA progression, complete-case SOFA at both times"
+label_sofa_responder_nl,labels_sensibilidad,label (sensitivity),1/0/missing,SOFA improvement restricted to windows with a new laboratory value (or death) in the horizon
+label_sofa_deterioro_2pts_nl,labels_sensibilidad,label (sensitivity),1/0/missing,SOFA progression restricted to windows with a new laboratory value (or death) in the horizon
+n_mbp_actual12h,,outcome definition,count,"Number of MAP measurements in (T0-12 h, T0]; used only to decide whether label_cardio is evaluable"
+sofa_t0_valid,,outcome definition,0/1,1 if all six SOFA components are available at T0
+sofa_t0_6h,desenlace_no_usar_como_feature,outcome (never a predictor),points,Total SOFA at T0 + 6 h
+sofa_t0_6h_valid,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,1 if all six SOFA components are available at T0 + 6 h
+delta_sofa_pareado,desenlace_no_usar_como_feature,outcome (never a predictor),points,"Paired delta SOFA (T0 + 6 h minus T0), component by component (pairing option C)"
+delta_pareado_valid,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,"1 if the paired delta is evaluable (coagulation, cardiovascular, CNS and renal present at both times)"
+mbp_mean_next6h,desenlace_no_usar_como_feature,outcome (never a predictor),mmHg,"Mean MAP in (T0, T0 + 6 h]"
+n_mbp_next6h,desenlace_no_usar_como_feature,outcome (never a predictor),count,"Number of MAP measurements in (T0, T0 + 6 h]"
+mbp_pct_next6h_gt65,desenlace_no_usar_como_feature,outcome (never a predictor),fraction,"Share of MAP measurements in (T0, T0 + 6 h] above 65 mmHg"
+mbp_incremento_pct,desenlace_no_usar_como_feature,outcome (never a predictor),fraction,Relative change of mean MAP: (mbp_mean_next6h - mbp_mean_actual12h) / mbp_mean_actual12h
+lactate_last_next6h,desenlace_no_usar_como_feature,outcome (never a predictor),mmol/L,"Last lactate in (T0, T0 + 6 h]"
+muere_en_horizonte,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,"Death in (T0, T0 + 6 h]; forces no improvement and progression"
+alta_viva_en_horizonte,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,Discharged alive from the ICU before T0 + 6 h; window excluded (labels set to missing)
+outtime,desenlace_no_usar_como_feature,outcome (never a predictor),datetime,ICU discharge time
+deathtime,desenlace_no_usar_como_feature,outcome (never a predictor),datetime,In-hospital death time
+new_lab_6h,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,"At least one creatinine, bilirubin or platelet measurement in (T0, T0 + 6 h]"
+temp_t0,,not used,°C,Temperature at T0 (LOCF up to 6 h); excluded from the models
+sofa_t0,,not used,points,"Total SOFA at T0 (v3.3; component-specific LOCF windows); excluded as predictor, used for complete-case labels"
+sofa_resp_t0,,not used,points,SOFA respiratory component at T0
+sofa_coag_t0,,not used,points,SOFA coagulation component at T0
+sofa_liver_t0,,not used,points,SOFA liver component at T0
+sofa_cardio_t0,,not used,points,SOFA cardiovascular component at T0
+sofa_neuro_t0,,not used,points,SOFA central nervous system component at T0
+sofa_renal_t0,,not used,points,SOFA renal component at T0 (creatinine only)
