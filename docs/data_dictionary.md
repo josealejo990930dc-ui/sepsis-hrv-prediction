@@ -276,5 +276,5 @@ Mean importance per variable within each group, rescaled so that the group with 
 ### `shap_hrv_nivel_vs_tendencia.csv`
 Within the HRV variables of `integrada_sofa`: share (%) of HRV importance by summary type (level, variability, trend).
 
-### Exploratory and descriptive tables
-`resultados/eda_hrv_v3_1/`, `resultados/eda_clinico_v3/` and `resultados/exploratorios/` keep the Spanish column headers produced by the notebooks and by `exploratorio_proxy_fragmentacion.py`. Their content is described in the markdown cells of the corresponding notebook (section codes A1–B8 and C1–C10 match the file names).
+### Descriptive tables
+`resultados/eda_hrv_v3_1/` and `resultados/eda_clinico_v3/` keep the Spanish column headers produced by the notebooks. Their content is described in the markdown cells of the corresponding notebook (section codes A1–B8 and C1–C10 match the file names).
