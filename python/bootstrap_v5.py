@@ -13,7 +13,7 @@ Contrasts (new model - reference model, same model family)
         (integrated HRV + SOFA minus clinical + SOFA).
 - H2 (main outcomes, AUROC):  hrv_nolineal - hrv_lineal
         (non-linear HRV minus linear HRV).
-- H3 (progression, AUPRC):    integrada_sofa - clinico_sofa.
+- H3 (deterioration, AUPRC):    integrada_sofa - clinico_sofa.
 - Complementary (the outcome's own metric): hrv_integrada - clinico_basal
         (integrated HRV + clinical minus clinical, both without SOFA).
 Sensitivity analyses repeat H1 and H3 with their own predictions.

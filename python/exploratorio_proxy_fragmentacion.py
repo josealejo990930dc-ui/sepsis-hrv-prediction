@@ -4,14 +4,14 @@ exploratorio_proxy_fragmentacion.py  (exploratory, decision D38; not part of the
 ==============================================================================================
 Question: does adding the RMSSD/SDNN ratio (a proxy of heart-rate fragmentation) to the
 clinical + SOFA model improve (a) in-hospital mortality (first window per patient, AUROC)
-or (b) SOFA progression (all evaluable windows, AUPRC)?
+or (b) SOFA deterioration (all evaluable windows, AUPRC)?
 
 Decision rule written before running: re-extract fragmentation indices only if the
 improvement exceeds 0.01. Note: the code flags `supera_regla` as delta > 0.01; the
 confidence interval is reported but not used in that flag.
 
 Fixed hyperparameters (no search), 5-fold CV repeated 5 times (grouped by patient for
-progression), patient-level bootstrap (2,000 replicates, seed 2026).
+deterioration), patient-level bootstrap (2,000 replicates, seed 2026).
 Input : ultimate_dataset_v3_1.csv, columnas_v3_1.json. Does not touch modelado_v5_1.
 Output: paso0_proxy_fragmentacion.csv
 Originally run as a Colab cell after pipeline_modelado_v5.py.
@@ -74,7 +74,7 @@ res = []
 p = d.sort_values(['icustay_id', 'hour_index']).groupby('icustay_id').head(1).reset_index(drop=True)
 yp = p['deathtime'].notna().astype(int).values
 assert 0.05 < yp.mean() < 0.35, 'Prevalencia de mortalidad implausible'
-# (b) SOFA progression, evaluable windows
+# (b) SOFA deterioration, evaluable windows
 v = d[d['label_sofa_deterioro_2pts'].notna()].reset_index(drop=True)
 yv = v['label_sofa_deterioro_2pts'].astype(int).values; gv = v['icustay_id'].values
 

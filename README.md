@@ -1,6 +1,6 @@
 # sepsis-hrv-prediction
 
-Code and analysis materials for *"Incremental value of heart rate variability for predicting 6-hour clinical improvement in sepsis: development and internal validation of prediction models"* (submitted to PLOS ONE; master's thesis in Biomedical Informatics, Universidad El Bosque). No patient-level data or credentials are included.
+Code and analysis materials for *"Incremental value of heart rate variability for predicting 6-hour clinical improvement in sepsis: development and internal validation of prediction models"* (manuscript submitted to PLOS ONE; master's thesis in Biomedical Informatics, Universidad El Bosque). No patient-level data or credentials are included.
 
 **Question.** In septic ICU patients, does heart rate variability (HRV) from the raw ECG improve prediction of the clinical course over the next 6 hours beyond routine clinical variables and the SOFA score?
 
@@ -14,7 +14,7 @@ Code and analysis materials for *"Incremental value of heart rate variability fo
 |---|---|
 | `sofa_respuesta` / `label_sofa_responder` | SOFA improvement |
 | `hemodinamico` / `label_cardio` | Haemodynamic stability or recovery |
-| `progresion` / `label_sofa_deterioro_2pts` | SOFA progression (delta SOFA ≥ 2) |
+| `progresion` / `label_sofa_deterioro_2pts` | SOFA deterioration (delta SOFA ≥ 2) |
 
 ---
 
@@ -45,11 +45,11 @@ This repository contains **no patient-level data**. Under the MIMIC-III data use
 
 | Component | Version |
 |---|---|
-| Python | 3.12 |
+| Python | 3.12.13 (Google Colab, CPU only) |
 | NeuroKit2 | 0.2.13 (R-peak detection and HRV metrics) |
-| Other Python packages | see `requirements.txt` |
+| NumPy | 2.0.2 |
+| Other Python packages | `requirements.txt` |
 | SQL | Google BigQuery (Standard SQL) |
-| Compute | Google Colab, CPU only (no GPU needed) |
 
 The scripts were written for Google Colab with Google Drive as storage. Paths and the BigQuery project are constants at the top of each script; edit them to run elsewhere:
 
@@ -79,7 +79,7 @@ Run the steps in this order. Each step writes new files or tables and never over
 
 Read-only checks, which never write tables or files: `sql/04_diagnosticos.sql` and `python/diagnosticos_v3.py` (detector validation, extraction QC).
 
-Exploratory, outside the pre-specified analysis plan: `python/exploratorio_proxy_fragmentacion.py`. It adds the RMSSD/SDNN ratio, a heart-rate fragmentation proxy, to the clinical + SOFA model for in-hospital mortality and SOFA progression. Run it after step 7; it writes `resultados/exploratorios/paso0_proxy_fragmentacion.csv`.
+Exploratory, outside the pre-specified analysis plan: `python/exploratorio_proxy_fragmentacion.py`. It adds the RMSSD/SDNN ratio, a heart-rate fragmentation proxy, to the clinical + SOFA model for in-hospital mortality and SOFA deterioration. Run it after step 7; it writes `resultados/exploratorios/paso0_proxy_fragmentacion.csv`.
 
 Note on step 8: `EDA_clinico_v3.ipynb` was run on `ultimate_dataset_v3.csv`, the superseded dataset without log-transformed LF/HF. All clinical columns are identical in v3 and v3.1, so the clinical tables are unaffected. Only the HRV comparison in section C6 reads HRV results from that earlier run.
 
@@ -107,14 +107,14 @@ Rules the pipeline relies on:
   - *Haemodynamic stability or recovery*: requires MAP and lactate in both windows, and both of:
     - MAP criterion: > 50 % of MAP values > 65 mmHg, or mean MAP up ≥ 10 %;
     - lactate criterion: < 2 mmol/L in both windows, or 2–4 → < 2, or > 4 → ≤ 4.
-  - *SOFA progression*: paired delta SOFA ≥ 2.
-  - Death in the horizon = no improvement / no stability and progression. Discharge alive before T0 + 6 h = excluded.
+  - *SOFA deterioration*: paired delta SOFA ≥ 2.
+  - Death in the horizon = no improvement / no stability and deterioration. Discharge alive before T0 + 6 h = excluded.
 - Leakage control: variables measured after T0 are listed in `desenlace_no_usar_como_feature` and blocked by an `assert` in the modelling pipeline.
 
 ### Modelling pipeline (`pipeline_modelado_v5.py`)
 - 7 feature sets × 5 model families (logistic regression with a Welch filter, Elastic Net, random forest, XGBoost, PCA + logistic regression). That gives 30 configurations per outcome: 90 in the main analysis and 96 in the sensitivity analyses.
 - Nested cross-validation grouped by patient: `StratifiedGroupKFold`, 5 outer × 3 inner folds, seed 42. Every model of an outcome uses the same outer folds, so comparisons are paired.
-- Grid search on AUROC (main outcomes) or AUPRC (progression). Sample weight = 1 / windows per patient. No resampling or class weights.
+- Grid search on AUROC (main outcomes) or AUPRC (deterioration). Sample weight = 1 / windows per patient. No resampling or class weights.
 - Platt calibration fitted on inner-fold predictions.
 - Imputation, scaling, filtering and PCA are fitted inside each training fold only.
 
@@ -136,6 +136,10 @@ Rules the pipeline relies on:
 
 The study is reported following TRIPOD+AI. Risk of bias was self-assessed with PROBAST+AI.
 
-## Citation and license
+## Citation
 
-Citation and license to be added before the repository is made public.
+If you use this code, please cite the article: *Incremental value of heart rate variability for predicting 6-hour clinical improvement in sepsis: development and internal validation of prediction models* (PLOS ONE, under review; full reference to be added on publication).
+
+## License
+
+Code released under the MIT License (see `LICENSE`). MIMIC-III data are not covered by this license and remain subject to the PhysioNet credentialed data use agreement.

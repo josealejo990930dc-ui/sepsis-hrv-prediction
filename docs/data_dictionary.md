@@ -4,7 +4,7 @@ This dictionary maps the Spanish identifiers used in the code, in `columnas_v3_1
 
 A machine-readable version of section 3 is in [`data_dictionary_columns.csv`](data_dictionary_columns.csv).
 
-> **To check against the manuscript.** The terms *SOFA improvement* and *haemodynamic stability or recovery* follow the manuscript wording. The other English labels (feature sets, analyses, SHAP groups and the progression outcome) are descriptive translations. Before submission, check that they match Tables 4–6 word for word.
+English terms follow the manuscript (outcomes; Table 2 for predictor sets; Tables 4–6).
 
 ## 1. Outcomes (most important for reading Tables 4–6)
 
@@ -14,11 +14,11 @@ Wherever the results files say *respuesta* / *responder* (response), the manuscr
 |---|---|---|---|---|
 | `sofa_respuesta` | `label_sofa_responder` | **SOFA improvement** | Paired delta SOFA < 0 | AUROC |
 | `hemodinamico` | `label_cardio` | **Haemodynamic stability or recovery** | MAP criterion **and** lactate criterion (README, *Outcomes*) | AUROC |
-| `progresion` | `label_sofa_deterioro_2pts` | **SOFA progression** (delta SOFA ≥ 2) | Paired delta SOFA ≥ 2 | AUPRC |
+| `progresion` | `label_sofa_deterioro_2pts` | **SOFA deterioration** (delta SOFA ≥ 2) | Paired delta SOFA ≥ 2 | AUPRC |
 
-Rules shared by all three: death within the horizon counts as no improvement / no stability (0) and as progression (1). A window is excluded (label missing) if the patient was discharged alive from the ICU before T0 + 6 h.
+Rules shared by all three: death within the horizon counts as no improvement / no stability (0) and as deterioration (1). A window is excluded (label missing) if the patient was discharged alive from the ICU before T0 + 6 h.
 
-**Event direction in the decision curves.** In `curvas_decision.csv`, for `sofa_respuesta` and `hemodinamico` the event is **no** improvement / **no** stability (the notebook uses `1 - y` and `1 - p`). For `progresion` the event is progression. Everywhere else, class 1 is the favourable outcome for the two main outcomes.
+**Event direction in the decision curves.** In `curvas_decision.csv`, for `sofa_respuesta` and `hemodinamico` the event is **no** improvement / **no** stability (the notebook uses `1 - y` and `1 - p`). For `progresion` the event is deterioration. Everywhere else, class 1 is the favourable outcome for the two main outcomes.
 
 ## 2. Values used in the results files
 
@@ -26,23 +26,23 @@ Rules shared by all three: death within the horizon counts as no improvement / n
 
 | Value | English name | No. of variables | Content |
 |---|---|---|---|
-| `hrv_completa` | Full HRV | 41 | 10 HRV metrics × 4 summaries + `horas_desde_ultima_hrv` |
-| `hrv_lineal` | Linear HRV | 28 | SDNN, RMSSD, SD1, SD2, LF, HF, LF/HF × 4 summaries |
-| `hrv_nolineal` | Non-linear HRV | 12 | SampEn, ApEn, DFA α1 × 4 summaries |
-| `clinico_basal` | Clinical | 13 | Clinical variables at T0 + MAP/lactate in the previous 12 h (no SOFA) |
+| `hrv_completa` | HRV, all | 41 | 10 HRV metrics × 4 summaries + `horas_desde_ultima_hrv` |
+| `hrv_lineal` | HRV, linear | 28 | SDNN, RMSSD, SD1, SD2, LF, HF, LF/HF × 4 summaries |
+| `hrv_nolineal` | HRV, nonlinear | 12 | SampEn, ApEn, DFA α1 × 4 summaries |
+| `clinico_basal` | Clinical baseline | 13 | Clinical variables at T0 + MAP/lactate in the previous 12 h (no SOFA) |
 | `clinico_sofa` | Clinical + SOFA | 15 | `clinico_basal` + partial SOFA + number of SOFA components available |
-| `hrv_integrada` | Integrated (HRV + clinical) | 54 | `hrv_completa` + `clinico_basal` |
+| `hrv_integrada` | HRV + clinical | 54 | `hrv_completa` + `clinico_basal` |
 | `integrada_sofa` | Integrated + SOFA | 56 | `hrv_completa` + `clinico_sofa` |
 
 ### 2.2 Model families (`familia`)
 
 | Value | English name |
 |---|---|
-| `logistica` | Logistic regression (univariate Welch t-test filter, p < 0.20, inside each training fold) |
-| `elastic_net` | Elastic Net logistic regression |
-| `random_forest` | Random forest |
-| `xgboost` | XGBoost |
-| `pca_logistica` | PCA + logistic regression (only with `clinico_sofa` and `integrada_sofa`) |
+| `logistica` | LR: logistic regression (univariate Welch t-test filter, p < 0.20, inside each training fold) |
+| `elastic_net` | EN: elastic net logistic regression |
+| `random_forest` | RF: random forest |
+| `xgboost` | XGB: XGBoost |
+| `pca_logistica` | PCA-LR: principal components + logistic regression (only with `clinico_sofa` and `integrada_sofa`) |
 
 ### 2.3 Analyses (`analisis`)
 
@@ -61,7 +61,7 @@ Rules shared by all three: death within the horizon counts as no improvement / n
 |---|---|---|---|---|
 | `H1` | `integrada_sofa` − `clinico_sofa` | SOFA improvement, haemodynamic stability or recovery | AUROC | one-sided |
 | `H2` | `hrv_nolineal` − `hrv_lineal` | same two | AUROC | two-sided (`comparaciones_h2_bilateral.csv`) |
-| `H3` | `integrada_sofa` − `clinico_sofa` | SOFA progression | AUPRC | one-sided |
+| `H3` | `integrada_sofa` − `clinico_sofa` | SOFA deterioration | AUPRC | one-sided |
 | `Complementario` (complementary) | `hrv_integrada` − `clinico_basal` | all three | the outcome's metric | one-sided |
 
 ### 2.5 SHAP groups and HRV summary types
@@ -154,11 +154,11 @@ One row per prediction window (`icustay_id`, T0). The dataset is **not** in this
 | `DFA_a1_slope` | `features_hrv`, `features_hrv_nolineal` | predictor | dimensionless per hour | DFA alpha1 (short-term scaling exponent), non-linear set. OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour |
 | `label_sofa_responder` | `labels_principales` | label (main) | 1/0/missing | SOFA improvement: 1 if paired delta SOFA < 0; death in horizon = 0 |
 | `label_cardio` | `labels_principales` | label (main) | 1/0/missing | Haemodynamic stability or recovery: 1 if the MAP criterion AND the lactate criterion are met (see README); death = 0 |
-| `label_sofa_deterioro_2pts` | `labels_secundarios` | label (secondary) | 1/0/missing | SOFA progression: 1 if paired delta SOFA >= 2; death in horizon = 1 |
+| `label_sofa_deterioro_2pts` | `labels_secundarios` | label (secondary) | 1/0/missing | SOFA deterioration: 1 if paired delta SOFA >= 2; death in horizon = 1 |
 | `label_sofa_responder_cc` | `labels_sensibilidad` | label (sensitivity) | 1/0/missing | SOFA improvement, complete-case SOFA at both times |
-| `label_sofa_deterioro_2pts_cc` | `labels_sensibilidad` | label (sensitivity) | 1/0/missing | SOFA progression, complete-case SOFA at both times |
+| `label_sofa_deterioro_2pts_cc` | `labels_sensibilidad` | label (sensitivity) | 1/0/missing | SOFA deterioration, complete-case SOFA at both times |
 | `label_sofa_responder_nl` | `labels_sensibilidad` | label (sensitivity) | 1/0/missing | SOFA improvement restricted to windows with a new laboratory value (or death) in the horizon |
-| `label_sofa_deterioro_2pts_nl` | `labels_sensibilidad` | label (sensitivity) | 1/0/missing | SOFA progression restricted to windows with a new laboratory value (or death) in the horizon |
+| `label_sofa_deterioro_2pts_nl` | `labels_sensibilidad` | label (sensitivity) | 1/0/missing | SOFA deterioration restricted to windows with a new laboratory value (or death) in the horizon |
 | `n_mbp_actual12h` | — | outcome definition | count | Number of MAP measurements in (T0-12 h, T0]; used only to decide whether label_cardio is evaluable |
 | `sofa_t0_valid` | — | outcome definition | 0/1 | 1 if all six SOFA components are available at T0 |
 | `sofa_t0_6h` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | points | Total SOFA at T0 + 6 h |
@@ -170,7 +170,7 @@ One row per prediction window (`icustay_id`, T0). The dataset is **not** in this
 | `mbp_pct_next6h_gt65` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | fraction | Share of MAP measurements in (T0, T0 + 6 h] above 65 mmHg |
 | `mbp_incremento_pct` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | fraction | Relative change of mean MAP: (mbp_mean_next6h - mbp_mean_actual12h) / mbp_mean_actual12h |
 | `lactate_last_next6h` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | mmol/L | Last lactate in (T0, T0 + 6 h] |
-| `muere_en_horizonte` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | 0/1 | Death in (T0, T0 + 6 h]; forces no improvement and progression |
+| `muere_en_horizonte` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | 0/1 | Death in (T0, T0 + 6 h]; forces no improvement and deterioration |
 | `alta_viva_en_horizonte` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | 0/1 | Discharged alive from the ICU before T0 + 6 h; window excluded (labels set to missing) |
 | `outtime` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | datetime | ICU discharge time |
 | `deathtime` | `desenlace_no_usar_como_feature` | outcome (never a predictor) | datetime | In-hospital death time |
@@ -200,7 +200,7 @@ Common columns: `analisis` (2.3), `hipotesis` (2.4), `desenlace` (1), `conjunto`
 |---|---|
 | `n` | Windows evaluated |
 | `pacientes` | Patients (ICU stays) |
-| `prevalencia` | Proportion of class 1 (favourable outcome for improvement/stability; progression for `progresion`) |
+| `prevalencia` | Proportion of class 1 (favourable outcome for improvement/stability; deterioration for `progresion`) |
 | `auroc`, `auprc` | Area under the ROC / precision-recall curve |
 | `brier` | Brier score (calibrated probabilities) |
 

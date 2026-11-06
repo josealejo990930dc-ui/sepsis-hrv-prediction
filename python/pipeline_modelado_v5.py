@@ -12,7 +12,7 @@ Identifiers are in Spanish; English terms are in docs/data_dictionary.md.
 Design
 ------
 - Outcomes: SOFA improvement and haemodynamic stability or recovery (main);
-  SOFA progression, delta SOFA >= 2 (secondary).
+  SOFA deterioration, delta SOFA >= 2 (secondary).
 - Feature sets (7): full HRV, linear HRV, non-linear HRV, clinical, clinical +
   SOFA, integrated HRV, integrated HRV + SOFA. PCA + logistic regression uses
   only its two specific sets (clinical + SOFA and integrated + SOFA).
@@ -21,7 +21,7 @@ Design
 - Validation: StratifiedGroupKFold by patient, 5 outer and 3 inner folds. The
   outer folds are THE SAME for every model of one outcome, so comparisons are paired.
 - Hyperparameters: grid search in the inner folds, optimising the metric of the
-  outcome's hypothesis (AUROC for the main outcomes, AUPRC for progression).
+  outcome's hypothesis (AUROC for the main outcomes, AUPRC for deterioration).
 - Calibration: Platt scaling fitted on inner-fold predictions. It does not change
   AUROC or AUPRC (both are computed on the uncalibrated probabilities); it does
   change the Brier score (computed on the calibrated probabilities).

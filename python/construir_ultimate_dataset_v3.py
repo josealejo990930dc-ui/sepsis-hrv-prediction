@@ -7,7 +7,7 @@ following the Mentasti et al. sliding-window design and HRV extraction v3.
 
 Identifiers are in Spanish; English terms are in docs/data_dictionary.md
 (label_sofa_responder = SOFA improvement, label_cardio = haemodynamic stability
-or recovery, label_sofa_deterioro_2pts = SOFA progression).
+or recovery, label_sofa_deterioro_2pts = SOFA deterioration).
 
 Design:
   - Unit of analysis: window (icustay_id, T0), T0 every 6 h from hour 12;
@@ -20,7 +20,7 @@ Design:
   - Delta SOFA is paired per component; complete case is a sensitivity analysis.
     *_nl labels keep only windows with a new creatinine, bilirubin or platelet
     value (or death) in the horizon: sensitivity analysis.
-  - Death in the horizon = no improvement and progression; discharge alive
+  - Death in the horizon = no improvement and deterioration; discharge alive
     inside the horizon = excluded.
   - MAP < 20 or > 200 mmHg -> NaN; lactato_medido_12h flags a lactate in the
     12 h before T0.
@@ -191,7 +191,7 @@ def construir_labels(df: pd.DataFrame) -> pd.DataFrame:
     Label values are 1.0 / 0.0, or NaN when the window is not evaluable.
       label_sofa_responder      : SOFA improvement (paired delta SOFA < 0)      [main]
       label_cardio              : haemodynamic stability or recovery            [main]
-      label_sofa_deterioro_2pts : SOFA progression (paired delta SOFA >= 2)     [secondary]
+      label_sofa_deterioro_2pts : SOFA deterioration (paired delta SOFA >= 2)     [secondary]
       *_cc                      : complete-case SOFA versions                   [sensitivity]
       *_nl                      : SOFA labels restricted to windows with a new lab [sensitivity]
     """
@@ -228,7 +228,7 @@ def construir_labels(df: pd.DataFrame) -> pd.DataFrame:
     lac_ok = ((la < 2) & (ln < 2)) | (la.between(2, 4) & (ln < 2)) | ((la > 4) & (ln <= 4))
     df['label_cardio'] = np.where(cardio_eval, (mbp_ok & lac_ok).astype(float), np.nan)
 
-    # Death in the horizon = worst outcome: no improvement and progression (all versions)
+    # Death in the horizon = worst outcome: no improvement and deterioration (all versions)
     for c in ['label_sofa_responder', 'label_sofa_responder_cc', 'label_cardio']:
         df.loc[muere, c] = 0.0
     for c in ['label_sofa_deterioro_2pts', 'label_sofa_deterioro_2pts_cc']:

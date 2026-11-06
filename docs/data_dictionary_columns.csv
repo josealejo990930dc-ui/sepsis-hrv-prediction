@@ -67,11 +67,11 @@ DFA_a1_last,features_hrv; features_hrv_nolineal,predictor,dimensionless,"DFA alp
 DFA_a1_slope,features_hrv; features_hrv_nolineal,predictor,dimensionless per hour,"DFA alpha1 (short-term scaling exponent), non-linear set. OLS slope of the hourly values against hour (>= 3 points). Hourly value = median of the valid 5-min epochs of the hour"
 label_sofa_responder,labels_principales,label (main),1/0/missing,SOFA improvement: 1 if paired delta SOFA < 0; death in horizon = 0
 label_cardio,labels_principales,label (main),1/0/missing,Haemodynamic stability or recovery: 1 if the MAP criterion AND the lactate criterion are met (see README); death = 0
-label_sofa_deterioro_2pts,labels_secundarios,label (secondary),1/0/missing,SOFA progression: 1 if paired delta SOFA >= 2; death in horizon = 1
+label_sofa_deterioro_2pts,labels_secundarios,label (secondary),1/0/missing,SOFA deterioration: 1 if paired delta SOFA >= 2; death in horizon = 1
 label_sofa_responder_cc,labels_sensibilidad,label (sensitivity),1/0/missing,"SOFA improvement, complete-case SOFA at both times"
-label_sofa_deterioro_2pts_cc,labels_sensibilidad,label (sensitivity),1/0/missing,"SOFA progression, complete-case SOFA at both times"
+label_sofa_deterioro_2pts_cc,labels_sensibilidad,label (sensitivity),1/0/missing,"SOFA deterioration, complete-case SOFA at both times"
 label_sofa_responder_nl,labels_sensibilidad,label (sensitivity),1/0/missing,SOFA improvement restricted to windows with a new laboratory value (or death) in the horizon
-label_sofa_deterioro_2pts_nl,labels_sensibilidad,label (sensitivity),1/0/missing,SOFA progression restricted to windows with a new laboratory value (or death) in the horizon
+label_sofa_deterioro_2pts_nl,labels_sensibilidad,label (sensitivity),1/0/missing,SOFA deterioration restricted to windows with a new laboratory value (or death) in the horizon
 n_mbp_actual12h,,outcome definition,count,"Number of MAP measurements in (T0-12 h, T0]; used only to decide whether label_cardio is evaluable"
 sofa_t0_valid,,outcome definition,0/1,1 if all six SOFA components are available at T0
 sofa_t0_6h,desenlace_no_usar_como_feature,outcome (never a predictor),points,Total SOFA at T0 + 6 h
@@ -83,7 +83,7 @@ n_mbp_next6h,desenlace_no_usar_como_feature,outcome (never a predictor),count,"N
 mbp_pct_next6h_gt65,desenlace_no_usar_como_feature,outcome (never a predictor),fraction,"Share of MAP measurements in (T0, T0 + 6 h] above 65 mmHg"
 mbp_incremento_pct,desenlace_no_usar_como_feature,outcome (never a predictor),fraction,Relative change of mean MAP: (mbp_mean_next6h - mbp_mean_actual12h) / mbp_mean_actual12h
 lactate_last_next6h,desenlace_no_usar_como_feature,outcome (never a predictor),mmol/L,"Last lactate in (T0, T0 + 6 h]"
-muere_en_horizonte,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,"Death in (T0, T0 + 6 h]; forces no improvement and progression"
+muere_en_horizonte,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,"Death in (T0, T0 + 6 h]; forces no improvement and deterioration"
 alta_viva_en_horizonte,desenlace_no_usar_como_feature,outcome (never a predictor),0/1,Discharged alive from the ICU before T0 + 6 h; window excluded (labels set to missing)
 outtime,desenlace_no_usar_como_feature,outcome (never a predictor),datetime,ICU discharge time
 deathtime,desenlace_no_usar_como_feature,outcome (never a predictor),datetime,In-hospital death time
