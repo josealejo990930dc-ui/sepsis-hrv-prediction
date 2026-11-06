@@ -1,0 +1,11 @@
+# Post-processing scripts (post_hoc/, supplementary_tables/, main_tables/, figures/, sensitivity/, selection/)
+# were run with Python 3.14.7 and these versions. The modelling pipeline (pipeline_modelado_v5.py)
+# was run in Google Colab with Python 3.12.13 and NumPy 2.0.2; see README > Reproducibility note.
+numpy==2.5.4
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
+statsmodels==0.15.0
+matplotlib==3.11.2
+pillow==13.0.0
+xgboost==3.4.1   # only for sensitivity/sens_discharge_as_improved.py

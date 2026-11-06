@@ -29,6 +29,7 @@ resultados/          Aggregated result tables of the main analysis ("resultados"
   eda_clinico_v3/    Clinical exploratory analysis tables (incl. Table 1, EPV)
   archivo_v5_sin_ln/ Superseded run without log-transformed LF/HF (reference only)
 columnas_v3_1.json   Column groups used by the modelling pipeline
+postprocessing/      Post hoc analyses, main and S1 Appendix tables, figures (own README)
 docs/                Data dictionary (Markdown and CSV)
 requirements.txt     Python dependencies
 ```
@@ -75,6 +76,8 @@ Run the steps in this order. Each step writes new files or tables and never over
 | 10 | `python/bootstrap_v5.py` | Colab | `predicciones_oof.csv` | `comparaciones_bootstrap.csv` (H1, H2, H3, complementary) |
 | 11 | `python/h2_bilateral_v5_1.py` | Colab | `comparaciones_bootstrap.csv` | `comparaciones_h2_bilateral.csv` (two-sided H2; does not rerun the bootstrap) |
 | 12 | `notebooks/Calibracion_SHAP_v5.ipynb` | Colab | `predicciones_oof.csv`, dataset | `calibracion_metricas.csv`, `curvas_decision.csv`, `shap_*.csv` |
+
+Steps 13 onward (post hoc analyses, Tables 4–6, S1 Appendix tables and figures) are in [`postprocessing/`](postprocessing/README.md).
 
 Read-only checks, which never write tables or files: `sql/04_diagnosticos.sql` and `python/diagnosticos_v3.py` (detector validation, extraction QC).
 

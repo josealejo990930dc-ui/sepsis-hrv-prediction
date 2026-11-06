@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+results/
+tables/
+*.csv
+!requirements.txt
