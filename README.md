@@ -27,7 +27,6 @@ notebooks/           Exploratory analysis and calibration / decision curves / SH
 resultados/          Aggregated result tables of the main analysis ("resultados" = results)
   eda_hrv_v3_1/      HRV exploratory analysis tables
   eda_clinico_v3/    Clinical exploratory analysis tables (incl. Table 1, EPV)
-  exploratorios/     Exploratory analyses outside the pre-specified plan
   archivo_v5_sin_ln/ Superseded run without log-transformed LF/HF (reference only)
 columnas_v3_1.json   Column groups used by the modelling pipeline
 docs/                Data dictionary (Markdown and CSV)
@@ -78,8 +77,6 @@ Run the steps in this order. Each step writes new files or tables and never over
 | 12 | `notebooks/Calibracion_SHAP_v5.ipynb` | Colab | `predicciones_oof.csv`, dataset | `calibracion_metricas.csv`, `curvas_decision.csv`, `shap_*.csv` |
 
 Read-only checks, which never write tables or files: `sql/04_diagnosticos.sql` and `python/diagnosticos_v3.py` (detector validation, extraction QC).
-
-Exploratory, outside the pre-specified analysis plan: `python/exploratorio_proxy_fragmentacion.py`. It adds the RMSSD/SDNN ratio, a heart-rate fragmentation proxy, to the clinical + SOFA model for in-hospital mortality and SOFA deterioration. Run it after step 7; it writes `resultados/exploratorios/paso0_proxy_fragmentacion.csv`.
 
 Note on step 8: `EDA_clinico_v3.ipynb` was run on `ultimate_dataset_v3.csv`, the superseded dataset without log-transformed LF/HF. All clinical columns are identical in v3 and v3.1, so the clinical tables are unaffected. Only the HRV comparison in section C6 reads HRV results from that earlier run.
 
