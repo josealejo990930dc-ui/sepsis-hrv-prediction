@@ -1,7 +1,0 @@
-desenlace,familia,Clínicas en T0,HRV frecuencial,HRV no lineal,HRV temporal,PAM y lactato (12 h),SOFA
-hemodinamico,elastic_net,0.0,0.0,0.0,0.0,100.0,0.0
-hemodinamico,xgboost,8.0,22.0,20.0,14.0,100.0,10.0
-progresion,elastic_net,100.0,66.0,94.0,40.0,96.0,58.0
-progresion,xgboost,59.0,100.0,94.0,73.0,65.0,26.0
-sofa_respuesta,elastic_net,24.0,3.0,2.0,1.0,11.0,100.0
-sofa_respuesta,xgboost,39.0,31.0,28.0,18.0,29.0,100.0

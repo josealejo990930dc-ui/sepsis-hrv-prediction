@@ -1,7 +1,0 @@
-desenlace,familia,Nivel (media),Nivel (último),Tendencia (pendiente),Variabilidad (DE)
-hemodinamico,elastic_net,,,,
-hemodinamico,xgboost,27.5,32.1,16.2,24.2
-progresion,elastic_net,17.1,38.8,15.3,28.9
-progresion,xgboost,15.1,33.4,27.7,23.7
-sofa_respuesta,elastic_net,5.8,2.5,52.0,39.7
-sofa_respuesta,xgboost,19.9,22.4,31.3,26.4

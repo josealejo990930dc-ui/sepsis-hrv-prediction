@@ -1,9 +1,0 @@
-desenlace,familia,valor_referencia,valor_nuevo,delta,ic95_inf,ic95_sup,p_unilateral,p_bh,p_bilateral,p_bh_bilateral,diferencia_significativa,ventanas,pacientes
-sofa_respuesta,elastic_net,0.5037,0.4652,-0.0385,-0.0779,0.0018,0.967,0.9895,0.066,0.132,False,1681,405
-sofa_respuesta,logistica,0.5293,0.4765,-0.0527,-0.0967,-0.0069,0.9895,0.9895,0.021,0.084,False,1681,405
-sofa_respuesta,random_forest,0.5002,0.4975,-0.0028,-0.0448,0.0404,0.544,0.9895,0.912,0.912,False,1681,405
-sofa_respuesta,xgboost,0.4946,0.5001,0.0055,-0.0396,0.0526,0.3965,0.9895,0.793,0.912,False,1681,405
-hemodinamico,elastic_net,0.4432,0.4655,0.0223,-0.0782,0.1339,0.316,0.316,0.632,0.632,False,317,111
-hemodinamico,logistica,0.441,0.523,0.082,-0.003,0.1707,0.033,0.092,0.066,0.184,False,317,111
-hemodinamico,random_forest,0.4875,0.5454,0.0579,-0.0384,0.1701,0.127,0.1693,0.254,0.3387,False,317,111
-hemodinamico,xgboost,0.4658,0.5523,0.0865,-0.0128,0.1763,0.046,0.092,0.092,0.184,False,317,111
